@@ -1,1 +1,1 @@
-# darko-counter
+# A simple drinking game
