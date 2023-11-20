@@ -1,11 +1,14 @@
 import GlobalStyles from "./global-styles";
+import Counter from "./Counter";
 
 function App() {
   return (
     <>
       <GlobalStyles />
 
-      <p>Darko</p>
+      <>
+        <Counter />
+      </>
     </>
   );
 }
