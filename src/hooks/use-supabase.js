@@ -56,7 +56,7 @@ const useSupabase = () => {
     }
   };
 
-  const getData = async (_date) => {
+  const getData = async (_date = new Date()) => {
     const { data, error } = await supabase
       .from("counters")
       .select(
@@ -107,8 +107,8 @@ const useSupabase = () => {
   };
 
   const modifyCounter = (_counter, _value, _selectedDate) => {
-    setErrorMessage("");
     isSelectedDateValid(_selectedDate);
+    setErrorMessage("");
 
     if (errorMessage === "") {
       if (_value === 0) {
@@ -122,12 +122,16 @@ const useSupabase = () => {
   const isSelectedDateValid = (_selectedDate) => {
     let formatedSelectedDate = formatDateToString(_selectedDate);
     let formatedToday = formatDateToString(new Date());
+    let ret = true;
 
-    if (formatedSelectedDate > formatedToday) {
-      setErrorMessage("Ne mozes u buducnosti da mu brojis alo");
-    } else if (formatedSelectedDate < formatedToday) {
-      setErrorMessage("Ne moze ni ovo");
+    if (
+      formatedSelectedDate > formatedToday ||
+      formatedSelectedDate < formatedToday
+    ) {
+      ret = false;
     }
+
+    return ret;
   };
 
   return {
@@ -140,6 +144,7 @@ const useSupabase = () => {
     getDataForChart,
     counterNames,
     sumOfCounterValues,
+    isSelectedDateValid,
   };
 };
 

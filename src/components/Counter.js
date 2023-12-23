@@ -16,6 +16,7 @@ const Counter = () => {
     errorMessage,
     setErrorMessage,
     getDataForChart,
+    isSelectedDateValid,
   } = useSupabase();
 
   useEffect(
@@ -38,6 +39,8 @@ const Counter = () => {
       setErrorMessage("");
     }, 3000);
   }
+
+  const dateValid = isSelectedDateValid(selectedDate);
 
   return (
     <>
@@ -69,6 +72,7 @@ const Counter = () => {
               onClick={() => {
                 modifyCounter(item, value, selectedDate);
               }}
+              disabled={!dateValid}
             >
               +
             </Increase>
@@ -150,5 +154,5 @@ const Increase = styled.button`
   font-size: 40px;
   align-self: center;
   border: 3px solid black;
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
 `;
