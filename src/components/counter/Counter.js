@@ -10,7 +10,7 @@ import CounterItem from "./CounterItem";
 import ErrorBox from "../ui/ErrorBox";
 
 const Counter = () => {
-  const { getData, getDataForChart, returnedData } =
+  const { getData, getDataForChart, returnedData, errorMessage } =
     useContext(SupabaseContext);
 
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -34,7 +34,7 @@ const Counter = () => {
     <>
       <Logo>Darko's Words Counter</Logo>
 
-      {/* <ErrorBox message={errorMessage} /> */}
+      <ErrorBox message={errorMessage} />
 
       <Actions>
         <NewDatePicker
@@ -47,9 +47,16 @@ const Counter = () => {
       <NewCounter />
 
       {returnedData?.map(function (item) {
+        let valuesObject = item.values[0];
+        let value = valuesObject ? valuesObject.value : 0;
+
         return (
           <CounterList key={item.id}>
-            <CounterItem item={item} selectedDate={selectedDate} />
+            <CounterItem
+              item={item}
+              value={value}
+              selectedDate={selectedDate}
+            />
           </CounterList>
         );
       })}

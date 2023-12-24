@@ -21,6 +21,7 @@ const NewCounter = () => {
         onClick={() => {
           if (counterName) {
             insertCounter(counterName);
+            setCounterName("");
           }
         }}
       >

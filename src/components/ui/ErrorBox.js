@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
+import { SupabaseContext } from "../../context/supabase-context";
 
-const ErrorBox = ({ message }) => {
-  // const { errorMessage, setErrorMessage, errorTimer } = useSupabase();
-  // const [test, setTest] = useState(errorMessage);
-  // const ret = test ? <ErrorMessage>{message}</ErrorMessage> : <div></div>;
+const ErrorBox = () => {
+  const { errorMessage, setErrorMessage, errorTimer } =
+    useContext(SupabaseContext);
+  const ret = errorMessage ? (
+    <ErrorMessage>{errorMessage}</ErrorMessage>
+  ) : (
+    <div></div>
+  );
 
-  // // console.log(message);
+  if (errorMessage) {
+    setTimeout(() => {
+      setErrorMessage("");
+    }, errorTimer);
+  }
 
-  // if (test) {
-  //   setTimeout(() => {
-  //     setTest("");
-  //   }, errorTimer);
-  // }
-
-  return <ErrorMessage>{message}</ErrorMessage>;
+  return ret;
 };
 
 export default ErrorBox;

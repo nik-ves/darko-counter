@@ -10,6 +10,9 @@ export const SupabaseContext = React.createContext({
   insertCounter: () => {},
   counterNames: [],
   sumOfCounterValues: [],
+  errorMessage: "",
+  setErrorMessage: () => {},
+  errorTimer: "",
 });
 
 const SupabaseContextProvider = (props) => {
@@ -114,7 +117,7 @@ const SupabaseContextProvider = (props) => {
     const { error } = await supabase
       .from("values")
       .update({ value: _value + 1 })
-      .eq("counter_id", _counter.id)
+      .eq("counters_id", _counter.id)
       .eq("created_at", formatDateToString(new Date()));
 
     if (!error) {
@@ -151,7 +154,7 @@ const SupabaseContextProvider = (props) => {
   };
 
   const insertCounter = async (_name) => {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("counters")
       .insert({
         name: _name,
@@ -175,6 +178,9 @@ const SupabaseContextProvider = (props) => {
     insertCounter,
     counterNames,
     sumOfCounterValues,
+    errorMessage,
+    setErrorMessage,
+    errorTimer,
   };
 
   return (

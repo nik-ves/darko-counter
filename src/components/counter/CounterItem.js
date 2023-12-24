@@ -1,12 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { SupabaseContext } from "../../context/supabase-context";
 
-const CounterItem = ({ item, selectedDate }) => {
-  let valuesObject = item.values[0];
-  let value = valuesObject ? valuesObject.value : 0;
-
-  const [counterValue, setCounterValue] = useState(value);
+const CounterItem = ({ item, value, selectedDate }) => {
   const { isSelectedDateValid, modifyCounter } = useContext(SupabaseContext);
 
   const dateValid = isSelectedDateValid(selectedDate);
@@ -14,11 +10,10 @@ const CounterItem = ({ item, selectedDate }) => {
     <>
       <CounterTitle>{item.name}</CounterTitle>
 
-      <CounterNumber>{counterValue}</CounterNumber>
+      <CounterNumber>{value}</CounterNumber>
 
       <Increase
         onClick={() => {
-          setCounterValue(counterValue + 1);
           modifyCounter(item, value, selectedDate);
         }}
         disabled={!dateValid}
