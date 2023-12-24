@@ -12,14 +12,16 @@ const useSupabase = () => {
   const supabase = createClient(supabaseUrl, supabaseKey);
 
   const formatDateToString = (_date) => {
-    // 01, 02, 03, ... 29, 30, 31
-    let dd = (_date.getDate() < 10 ? "0" : "") + _date.getDate();
-    // 01, 02, 03, ... 10, 11, 12
-    let MM = (_date.getMonth() + 1 < 10 ? "0" : "") + (_date.getMonth() + 1);
-    // 1970, 1971, ... 2015, 2016, ...
-    let yyyy = _date.getFullYear();
+    if (_date) {
+      // 01, 02, 03, ... 29, 30, 31
+      let dd = (_date.getDate() < 10 ? "0" : "") + _date.getDate();
+      // 01, 02, 03, ... 10, 11, 12
+      let MM = (_date.getMonth() + 1 < 10 ? "0" : "") + (_date.getMonth() + 1);
+      // 1970, 1971, ... 2015, 2016, ...
+      let yyyy = _date.getFullYear();
 
-    return yyyy + "-" + MM + "-" + dd;
+      return yyyy + "-" + MM + "-" + dd;
+    }
   };
 
   const getDataForChart = async () => {
@@ -28,7 +30,7 @@ const useSupabase = () => {
     id, 
     name, 
     values (*)
-  `
+    `
     );
 
     let counterNamesArray = [];
@@ -56,7 +58,11 @@ const useSupabase = () => {
     }
   };
 
-  const getData = async (_date = new Date()) => {
+  const getData = async (_date) => {
+    const date = _date
+      ? formatDateToString(_date)
+      : formatDateToString(new Date());
+
     const { data, error } = await supabase
       .from("counters")
       .select(
@@ -64,14 +70,11 @@ const useSupabase = () => {
       id, 
       name, 
       values (*)
-    `
+      `
       )
-      .eq(
-        "values.created_at",
-        _date ? formatDateToString(_date) : formatDateToString(new Date())
-      );
+      .eq("values.created_at", date);
 
-    if (!error) {
+    if (!error && data) {
       setReturnedData(data);
     } else {
       setErrorMessage(error.message);
@@ -107,9 +110,6 @@ const useSupabase = () => {
   };
 
   const modifyCounter = (_counter, _value, _selectedDate) => {
-    isSelectedDateValid(_selectedDate);
-    setErrorMessage("");
-
     if (errorMessage === "") {
       if (_value === 0) {
         insertData(_counter, _value);
@@ -119,7 +119,7 @@ const useSupabase = () => {
     }
   };
 
-  const isSelectedDateValid = (_selectedDate) => {
+  const isSelectedDateValid = (_selectedDate = new Date()) => {
     let formatedSelectedDate = formatDateToString(_selectedDate);
     let formatedToday = formatDateToString(new Date());
     let ret = true;

@@ -52,7 +52,7 @@ const Counter = () => {
         {" "}
         <NewDatePicker
           onChange={modifiedDate}
-          value={selectedDate}
+          value={selectedDate ? selectedDate : new Date()}
           format="y-MM-dd"
         />
         <AddNewCounter>New Counter</AddNewCounter>
