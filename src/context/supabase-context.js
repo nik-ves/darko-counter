@@ -1,9 +1,21 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 
-const useSupabase = () => {
+export const SupabaseContext = React.createContext({
+  getData: () => {},
+  returnedData: [],
+  getDataForChart: () => {},
+  isSelectedDateValid: () => {},
+  modifyCounter: () => {},
+  insertCounter: () => {},
+  counterNames: [],
+  sumOfCounterValues: [],
+});
+
+const SupabaseContextProvider = (props) => {
   const [returnedData, setReturnedData] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [errorTimer, setErrorTimer] = useState(3000);
   const [counterNames, setCounterNames] = useState([]);
   const [sumOfCounterValues, setSumOfCounterValues] = useState([]);
 
@@ -55,6 +67,7 @@ const useSupabase = () => {
     if (!error) {
     } else {
       setErrorMessage(error.message);
+      setErrorTimer(3000);
     }
   };
 
@@ -78,6 +91,7 @@ const useSupabase = () => {
       setReturnedData(data);
     } else {
       setErrorMessage(error.message);
+      setErrorTimer(3000);
     }
   };
 
@@ -92,6 +106,7 @@ const useSupabase = () => {
       getData();
     } else {
       setErrorMessage(error.message);
+      setErrorTimer(3000);
     }
   };
 
@@ -99,13 +114,14 @@ const useSupabase = () => {
     const { error } = await supabase
       .from("values")
       .update({ value: _value + 1 })
-      .eq("counters_id", _counter.id)
+      .eq("counter_id", _counter.id)
       .eq("created_at", formatDateToString(new Date()));
 
     if (!error) {
       getData();
     } else {
       setErrorMessage(error.message);
+      setErrorTimer(3000);
     }
   };
 
@@ -134,18 +150,38 @@ const useSupabase = () => {
     return ret;
   };
 
-  return {
-    returnedData,
+  const insertCounter = async (_name) => {
+    const { data, error } = await supabase
+      .from("counters")
+      .insert({
+        name: _name,
+      })
+      .select();
+
+    if (!error) {
+      getData();
+    } else {
+      setErrorMessage(error.message);
+      setErrorTimer(3000);
+    }
+  };
+
+  const providerValue = {
     getData,
-    modifyCounter,
-    formatDateToString,
-    errorMessage,
-    setErrorMessage,
+    returnedData,
     getDataForChart,
+    isSelectedDateValid,
+    modifyCounter,
+    insertCounter,
     counterNames,
     sumOfCounterValues,
-    isSelectedDateValid,
   };
+
+  return (
+    <SupabaseContext.Provider value={providerValue}>
+      {props.children}
+    </SupabaseContext.Provider>
+  );
 };
 
-export default useSupabase;
+export default SupabaseContextProvider;

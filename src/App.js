@@ -1,19 +1,21 @@
 import GlobalStyles from "./global-styles";
-import Counter from "./components/Counter";
+import Counter from "./components/counter/Counter";
 import styled from "styled-components";
-import useSupabase from "./hooks/use-supabase";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import DataChart from "./components/DataChart";
+import { SupabaseContext } from "./context/supabase-context";
 
 function App() {
   const [showChart, setShowChart] = useState(false);
-  const { getDataForChart, counterNames, sumOfCounterValues } = useSupabase();
+  const { getDataForChart, counterNames, sumOfCounterValues } =
+    useContext(SupabaseContext);
 
   const showChartHandler = () => {
     getDataForChart();
 
     setShowChart(!showChart);
   };
+
   return (
     <Wrapper>
       <GlobalStyles />
