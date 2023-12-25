@@ -46,6 +46,7 @@ const Input = styled.input`
   font-size: 15px;
   padding: 10px;
   border-radius: 4px;
+  border: 1px solid grey;
   outline: none;
   font-family: "Courier New", Courier, monospace;
 `;
