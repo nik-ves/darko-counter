@@ -2,7 +2,7 @@ import GlobalStyles from "./global-styles";
 import Counter from "./components/counter/Counter";
 import styled from "styled-components";
 import { useState, useContext } from "react";
-import DataChart from "./components/DataChart";
+import DataChart from "./components/chart/DataChart";
 import { SupabaseContext } from "./context/supabase-context";
 
 function App() {
@@ -44,23 +44,23 @@ export default App;
 const Wrapper = styled.div`
   min-height: 100vh;
   display: flex;
-  background-color: #1c1c1c;
+  background-color: #363031;
   flex-direction: column;
   align-items: center;
-  padding-top: 50px;
+  padding-top: 7rem;
   position: relative;
 `;
 
 const ShowChart = styled.button`
-  font-size: 20px;
+  font-size: 1.5rem;
   background-color: transparent;
   border: 1px solid white;
   color: white;
-  padding: 10px 20px;
+  padding: 0.5rem 1rem;
   cursor: pointer;
 
   position: absolute;
-  margin: 30px;
+  margin: 1.5rem;
   top: 0;
   left: 0;
 `;

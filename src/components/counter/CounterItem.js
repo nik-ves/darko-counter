@@ -10,36 +10,55 @@ const CounterItem = ({ item, value, selectedDate }) => {
     <>
       <CounterTitle>{item.name}</CounterTitle>
 
-      <CounterNumber>{value}</CounterNumber>
+      <Actions>
+        <CounterNumber>{value}</CounterNumber>
 
-      <Increase
-        onClick={() => {
-          modifyCounter(item, value, selectedDate);
-        }}
-        disabled={!dateValid}
-      >
-        +
-      </Increase>
+        <Increase
+          onClick={() => {
+            modifyCounter(item, value, selectedDate);
+          }}
+          disabled={!dateValid}
+        >
+          +
+        </Increase>
+      </Actions>
     </>
   );
 };
 
 export default CounterItem;
 
+const Actions = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const CounterTitle = styled.h3`
-  font-size: 40px;
-  border-bottom: 3px solid black;
+  font-size: 2rem;
+  text-transform: uppercase;
+  color: black;
 `;
 
 const CounterNumber = styled.p`
-  font-size: 40px;
-  margin: 30px 0;
+  font-size: 2rem;
+  margin-right: 2rem;
+  font-weight: 700;
 `;
 
 const Increase = styled.button`
-  width: 150px;
-  font-size: 40px;
+  width: 5rem;
+  font-size: 2rem;
   align-self: center;
-  border: 3px solid black;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  transition: 0.2s all;
+
+  background-color: transparent;
+
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  color: ${(props) => (props.disabled ? "grey" : "black")};
+
+  &:hover {
+    border: 2px solid white;
+  }
 `;

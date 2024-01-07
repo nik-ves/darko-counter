@@ -10,6 +10,7 @@ import {
 
 import { Bar } from "react-chartjs-2";
 import styled from "styled-components";
+import Container from "../ui/Container";
 
 ChartJS.register(
   CategoryScale,
@@ -21,12 +22,15 @@ ChartJS.register(
 );
 
 export const options = {
+  indexAxis: "y",
   plugins: {
     title: {
       display: true,
       text: "Sum of all used phrases by Darko",
     },
   },
+  responsive: true,
+  maintainAspectRatio: true,
 };
 
 const DataChart = ({ _labels, _data }) => {
@@ -44,26 +48,42 @@ const DataChart = ({ _labels, _data }) => {
   };
 
   return (
-    <>
-      <Logo>Darko's Chart</Logo>
+    <Container>
+      <LogoBox>
+        <Logo>Darko's Chart</Logo>
+      </LogoBox>
 
       <ChartBox>
-        <Bar options={options} data={data} />
+        <BarChart options={options} data={data} />
       </ChartBox>
-    </>
+    </Container>
   );
 };
 
 export default DataChart;
 
-const Logo = styled.h1`
-  color: white;
-  font-size: 60px;
-  border-bottom: 3px solid white;
-  margin-bottom: 60px;
+const LogoBox = styled.div`
+  margin-bottom: 6rem;
+  display: flex;
+  justify-content: center;
 `;
 
-const ChartBox = styled.div`
-  width: 1000px;
-  height: auto;
+const Logo = styled.h1`
+  color: white;
+  font-size: 3.5rem;
+  border-bottom: 3px solid white;
+
+  @media only screen and (max-width: 600px) {
+    font-size: 3rem;
+  }
+
+  @media only screen and (max-width: 300px) {
+    font-size: 2rem;
+  }
+`;
+
+const ChartBox = styled.div``;
+
+const BarChart = styled(Bar)`
+  width: 100%;
 `;

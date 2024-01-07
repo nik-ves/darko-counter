@@ -24,8 +24,8 @@ export default ErrorBox;
 
 const ErrorMessage = styled.p`
   color: red;
-  font-size: 40px;
-  padding: 10px;
+  font-size: 4rem;
+  padding: 1rem;
   border: 1px solid red;
-  margin-bottom: 60px;
+  margin-bottom: 6rem;
 `;

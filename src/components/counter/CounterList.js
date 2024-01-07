@@ -8,13 +8,14 @@ const CounterList = (props) => {
 export default CounterList;
 
 const CounterBody = styled.div`
-  margin-bottom: 30px;
-  background-color: white;
-
+  margin-bottom: 1.5rem;
+  background-color: #c2bcbd;
+  border: 2px solid black;
   display: flex;
-  flex-direction: column;
+  color: black;
   align-items: center;
-  padding: 10px;
-  width: 800px;
+  justify-content: space-between;
+  padding: 1rem;
+  max-width: 100%;
   border-radius: 4px;
 `;

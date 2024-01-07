@@ -10,6 +10,14 @@ const GlobalStyles = createGlobalStyle`
   body {
     font-family: 'Courier New', Courier, monospace;
   }
+
+  html {
+    font-size: 62.5%; 
+
+    @media only screen and (max-width: 1300px) {
+      font-size: 50%;
+    }
+  }
 `;
 
 export default GlobalStyles;
